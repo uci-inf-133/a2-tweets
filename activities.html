@@ -1,11 +1,6 @@
 <!doctype html>
 <html lang="en">
 
-<!--
-WRITTEN BY: Your name here
-EMAIL: Your email here
--->
-
 <head>
   <meta charset="utf-8">
   <meta name="author" content="Your name here">
@@ -13,9 +8,9 @@ EMAIL: Your email here
   <!--Load JQuery-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!--Load Vega-lite-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.3.1/vega.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.6.0/vega-lite.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.20.0/vega-embed.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.6.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@5.1.3"></script>
   <!--Load math.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.1.2/math.min.js"></script>
   <!--Load bootstrap stylesheet-->
@@ -24,14 +19,10 @@ EMAIL: Your email here
   <link rel="stylesheet" href="css/style.css">
   <!--Load local runkeeper_tweets file, which will load all of the tweets into the variable RUNKEEPER_TWEETS-->
   <script type="text/javascript" src="js/get_saved_tweets.js"></script>
-  <script type="text/javascript" src="js/get_live_tweets.js"></script>
   <!--Load local tweet.js file, which was generated from TypeScript-->
   <script type="text/javascript" src="js/tweet.js"></script>
   <!--Load local app.js file-->
   <script type="text/javascript" src="js/activities.js"></script>
-
-  <!--Load handler for the live button-->
-  <script type="text/javascript" src="js/live_button_handler.js"></script>
   <title>One week of #RunKeeper Tweets</title>
 </head>
 <body class="container">
@@ -47,20 +38,15 @@ EMAIL: Your email here
           About the data
         </a>
       </li>
-      <li class="nav-item">
-        <a href="descriptions.html" class="nav-link">
-          What people are saying
-        </a>
-      </li>
       <li class="nav-item active">
         <a href="activities.html" class="nav-link">
           A wide range of activities
         </a>
       </li>
-    </ul>
-    <ul class="navbar-nav navbar-right mr-auto">
       <li class="nav-item">
-        <button class="btn" type="button" id="liveButton">Switch to live tweets</button>
+        <a href="descriptions.html" class="nav-link">
+          What people are saying
+        </a>
       </li>
     </ul>
   </nav>

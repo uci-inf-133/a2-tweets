@@ -1,11 +1,6 @@
 <!doctype html>
 <html lang="en">
 
-<!--
-WRITTEN BY: Your name here
-EMAIL: Your email here
--->
-
 <head>
   <meta charset="utf-8">
   <meta name="author" content="Your name here">
@@ -20,14 +15,10 @@ EMAIL: Your email here
   <link rel="stylesheet" href="css/style.css">
   <!--Load local runkeeper_tweets file, which will load all of the tweets into the variable RUNKEEPER_TWEETS-->
   <script type="text/javascript" src="js/get_saved_tweets.js"></script>
-  <script type="text/javascript" src="js/get_live_tweets.js"></script>
   <!--Load local tweet.js file, which was generated from TypeScript-->
   <script type="text/javascript" src="js/tweet.js"></script>
   <!--Load local descriptions.js file-->
   <script type="text/javascript" src="js/descriptions.js"></script>
-
-  <!--Load handler for the live button-->
-  <script type="text/javascript" src="js/live_button_handler.js"></script>
   <title>One week of #RunKeeper Tweets</title>
 </head>
 <body class="container">
@@ -43,20 +34,15 @@ EMAIL: Your email here
           About the data
         </a>
       </li>
-      <li class="nav-item active">
-        <a href="descriptions.html" class="nav-link">
-          What people are saying
-        </a>
-      </li>
       <li class="nav-item">
         <a href="activities.html" class="nav-link">
           A wide range of activities
         </a>
       </li>
-    </ul>
-    <ul class="navbar-nav navbar-right mr-auto">
-      <li class="nav-item">
-        <button class="btn" type="button" id="liveButton">Switch to live tweets</button>
+      <li class="nav-item active">
+        <a href="descriptions.html" class="nav-link">
+          What people are saying
+        </a>
       </li>
     </ul>
   </nav>

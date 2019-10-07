@@ -1,18 +1,25 @@
 --Readme document for *author*--
 
-1. How long, in hours, did it take you to complete this assignment?
+1. How many assignment points do you believe you completed (replace the *'s with your numbers)?
+
+*/10
+- */1 Tweet dates
+- */1 Tweet categories
+- */1 User-written tweets
+- */2 Determining activity type and distance
+- */2 Graphing activities by distance
+- */1 Implementing the search box
+- */2 Populating the table
+
+2. How long, in hours, did it take you to complete this assignment?
 
 
 
-2. What online resources did you consult when completing this assignment? (list specific URLs)
+3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials, etc.)
 
 
 
-3. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
-
-
-
-4. Did you add any bonus features to your submission? If so, what are they and how should we see them?
+4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
 
 
 

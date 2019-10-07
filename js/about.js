@@ -9,10 +9,10 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 	
+	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
+	//It works correctly, your task is to update the text of the other tags in the HTML file!
 	$('#numberTweets').text(tweet_array.length);
-	//TODO: remove these
-	$('#firstDate').text(earliest_tweet.time.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
-	$('#lastDate').text(latest_tweet.time.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+	
 }
 
 //Wait for the DOM to load
