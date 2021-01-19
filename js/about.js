@@ -11,11 +11,10 @@ function parseTweets(runkeeper_tweets) {
 	
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
-	$('#numberTweets').text(tweet_array.length);
-	
+	document.getElementById('numberTweets').innerText = tweet_array.length;	
 }
 
 //Wait for the DOM to load
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function (event) {
 	loadSavedRunkeeperTweets().then(parseTweets);
 });

@@ -10,7 +10,7 @@ function parseTweets(runkeeper_tweets) {
 	});
 
 	activity_vis_spec = {
-	  "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0-beta.8.json",
+	  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
 	    "values": tweet_array
@@ -24,6 +24,6 @@ function parseTweets(runkeeper_tweets) {
 }
 
 //Wait for the DOM to load
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function (event) {
 	loadSavedRunkeeperTweets().then(parseTweets);
 });

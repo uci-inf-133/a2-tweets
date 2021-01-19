@@ -13,7 +13,7 @@ function addEventHandlerForSearch() {
 }
 
 //Wait for the DOM to load
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function (event) {
 	addEventHandlerForSearch();
 	loadSavedRunkeeperTweets().then(parseTweets);
 });
