@@ -9,6 +9,8 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
