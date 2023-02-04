@@ -19,6 +19,8 @@ function parseTweets(runkeeper_tweets) {
 	}
 	let complete = 0;
 
+	//gather data on completed events and most frequent events
+	//find all activities in completed events
 	for(let i = 0; i < tweet_array.length; i++){
 		if(tweet_array[i].source === "completed_event"){
 			activityStats[complete] = {
@@ -37,18 +39,17 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
-	//https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
+	//sort to find the top three most frequent activities
 	let sortDictionary = Object.keys(frequentActivity).map((key) => {return [key, frequentActivity[key]]});
 	sortDictionary.sort((activity1, activity2)=>{
 		return activity1[1] - activity2[1];
 	});
 
+	//update DOM
 	document.getElementById('numberActivities').innerText = sortDictionary.length.toString();
 	document.getElementById('firstMost').innerText = sortDictionary[sortDictionary.length-1][0];
 	document.getElementById('secondMost').innerText = sortDictionary[sortDictionary.length-2][0];
 	document.getElementById('thirdMost').innerText = sortDictionary[sortDictionary.length-3][0];
-
-	// console.log(activityStats)
 
 	let avgDistance1 = 0.0;
 	let avgDistance2 = 0.0;
@@ -56,13 +57,13 @@ function parseTweets(runkeeper_tweets) {
 
 	let weekdays = 0;
 	let numWeekdayWorkouts = 0;
-	let weekDayArr = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
 	let weekends = 0;
 	let numWeekendWorkouts = 0;
 
 	let topThreeData = [];
 
+	//sum up distance to find average distance done for each activity
 	for(const j in activityStats){
 		if((activityStats[j].activity === sortDictionary[sortDictionary.length-1][0]) || (activityStats[j].activity  === sortDictionary[sortDictionary.length-2][0])
 			|| (activityStats[j].activity === sortDictionary[sortDictionary.length-3][0])){
@@ -77,45 +78,38 @@ function parseTweets(runkeeper_tweets) {
 				avgDistance3 += activityStats[j].dist;
 			}
 
-
+			//sum up distance done on weekends and weekdays
 			if(activityStats[j].date.includes("Sat") || activityStats[j].date.includes("Sun")){
 				weekends += activityStats[j].dist;
 				numWeekendWorkouts++;
-
-				if(activityStats[j].date.includes("Sat")){
-					topThreeData.push({"distance": activityStats[j].dist, "time (day)": "Sat", "activity": activityStats[j].activity})
-				}
-				else if(activityStats[j].date.includes("Sun")){
-					topThreeData.push({"distance": activityStats[j].dist, "time (day)": "Sun", "activity": activityStats[j].activity})
-				}
+				topThreeData.push({"distance": activityStats[j].dist, "time": activityStats[j].date, "activity": activityStats[j].activity});
 			}
 			else{
-				for(let m = 0; m < weekDayArr.length; m++){
-					if(activityStats[j].date.includes(weekDayArr[m])){
-						weekdays += activityStats[j].dist;
-						numWeekdayWorkouts++;
-						topThreeData.push({"distance": activityStats[j].dist, "time (day)": weekDayArr[m], "activity": activityStats[j].activity})
-					}
-				}
+				numWeekdayWorkouts++;
+				weekdays += activityStats[j].dist;
+				topThreeData.push({"distance": activityStats[j].dist, "time": activityStats[j].date, "activity": activityStats[j].activity});
 			}
 		}
 	}
+
+	//find average distance for each activity
 	avgDistance1 = avgDistance1/sortDictionary[sortDictionary.length-1][1];
 	avgDistance2 = avgDistance2/sortDictionary[sortDictionary.length-2][1];
 	avgDistance3 = avgDistance3/sortDictionary[sortDictionary.length-3][1];
 
+	//sort average distance to find longest and shortest activity
 	let sortActDist = [[avgDistance1,sortDictionary[sortDictionary.length-1][0]], [avgDistance2,sortDictionary[sortDictionary.length-2][0]], [avgDistance3,sortDictionary[sortDictionary.length-3][0]]];
 	sortActDist.sort((num1, num2) =>{
 		return num2[0]-num1[0];
 	});
 
+	//update DOM
 	document.getElementById('longestActivityType').innerText = sortActDist[0][1];
 	document.getElementById('shortestActivityType').innerText = sortActDist[2][1];
 
+	//find when people do the longest activities
 	weekdays = weekdays/numWeekdayWorkouts;
 	weekends = weekends/numWeekendWorkouts;
-
-	// console.log(topThreeData)
 
 	let longestActivityDates;
 
@@ -126,17 +120,16 @@ function parseTweets(runkeeper_tweets) {
 		longestActivityDates = "weekdays";
 	}
 
+	//update DOM
 	document.getElementById('weekdayOrWeekendLonger').innerText = longestActivityDates;
 
-	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
-
+	//gather activity frequency for graph
 	let frequentActivityData = [];
 	for(const n in frequentActivity){
-		frequentActivityData.push({"Activities": n, "Tweets": frequentActivity[n]})
+		frequentActivityData.push({"activityType": n, "count": frequentActivity[n]})
 	}
 
-	// console.log(frequentActivityData)
-
+	//activity frequency graph
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
@@ -145,16 +138,13 @@ function parseTweets(runkeeper_tweets) {
 		},
 		"mark": "point",
 		"encoding": {
-			"x": {"field": "Activities", "type": "nominal"},
-			"y": {"field": "Tweets", "type": "quantitative"}
+			"x": {"field": "activityType", "type": "nominal", "sort": "-y"},
+			"y": {"field": "count", "scale": {"type": "log"}}
 		},
-	  //TODO: Add mark and encoding
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
-	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
-	//Use those visualizations to answer the questions about which activities tended to be longest and when.
-
+	//distance graph
 	distance_vis_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"description": "A graph of distance by day of the week of the top three most popular activities.",
@@ -164,9 +154,9 @@ function parseTweets(runkeeper_tweets) {
 		"mark": "point",
 		"encoding": {
 			"x": {
-				"field": "time (day)",
-				"type": "ordinal",
-				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+				"timeUnit": "day",
+				"field": "time",
+				"type": "temporal",
 			},
 			"y": {"field": "distance", "type": "quantitative"},
 			"color": {"field": "activity", "type": "nominal"}
@@ -175,6 +165,7 @@ function parseTweets(runkeeper_tweets) {
 
 	vegaEmbed('#distanceVis', distance_vis_spec, {actions:false});
 
+	//aggregated distance graph
 	distance_vis_aggre = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"description": "A graph of distance by day of the week of the top three most popular activities.",
@@ -184,15 +175,16 @@ function parseTweets(runkeeper_tweets) {
 		"mark": "point",
 		"encoding": {
 			"x": {
-				"field": "time (day)",
-				"type": "ordinal",
-				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+				"timeUnit": "day",
+				"field": "time",
+				"type": "temporal",
 			},
 			"y": {"aggregate": "mean", "field": "distance"},
 			"color": {"field": "activity", "type": "nominal"}
 		},
 	};
 
+	//handle button click for switching between distance graph and aggregated distance graph
 	const distanceVis = document.getElementById("distanceVis");
 	const distanceAggregate = document.getElementById("distanceVisAggregated");
 	distanceAggregate.style.display = "none";

@@ -10,11 +10,8 @@ function parseTweets(runkeeper_tweets) {
 	});
 
 	//get earliest and latest Tweet by sorting tweet array by time in ascending order
-	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 	tweet_array.sort((tweet1, tweet2) => {
-
 		//turn time into ISO time and use parse to get time in milliseconds
-		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
 		let time1 = Date.parse(tweet1.time.toISOString());
 		let time2 = Date.parse(tweet2.time.toISOString())
 
@@ -30,8 +27,6 @@ function parseTweets(runkeeper_tweets) {
 		return 0;
 	})
 
-	console.log(tweet_array[0].writtenText)
-
 	const options = {
 		weekday: "long",
 		year: "numeric",
@@ -39,6 +34,7 @@ function parseTweets(runkeeper_tweets) {
 		day: "numeric"
 	}
 
+	//get the earliest tweet and latest tweet and convert it to correct format
 	const earliestTweet = tweet_array[0].time.toLocaleDateString("en-US", options)
 	const latestTweet = tweet_array[tweet_array.length-1].time.toLocaleDateString("en-US", options)
 
@@ -48,12 +44,15 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('firstDate').innerText = earliestTweet;
 	document.getElementById('lastDate').innerText = latestTweet;
 
+	//keep track of type of event
 	let completedEvents = 0;
 	let liveEvents = 0;
 	let achievements = 0;
 	let misc = 0;
 	let completedArr = []
 
+	//get how many of each type of event there is
+	//also keep track of completed events
 	for(let i = 0; i < tweet_array.length; i++){
 		if(tweet_array[i].source === "completed_event"){
 			completedArr.push(tweet_array[i])
@@ -70,6 +69,7 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
+	//update DOM with number of events in whole number and percentage format
 	document.getElementsByClassName('completedEvents')[0].innerText = completedEvents;
 	document.getElementsByClassName('completedEventsPct')[0].innerText = ((completedEvents/tweet_array.length)*100).toFixed(2).toString() + "%";
 	document.getElementsByClassName('liveEvents')[0].innerText = liveEvents;
@@ -79,6 +79,7 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementsByClassName('miscellaneous')[0].innerText = misc;
 	document.getElementsByClassName('miscellaneousPct')[0].innerText = ((misc/tweet_array.length)*100).toFixed(2).toString() + "%";
 
+	//get how many user-written tweets exist in the completed events category
 	let userTextEvents = 0;
 	for(let j = 0; j < completedArr.length; j++){
 		if (completedArr[j].written){
@@ -86,6 +87,7 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
+	//update DOM
 	document.getElementsByClassName('completedEvents')[1].innerText = completedArr.length;
 	document.getElementsByClassName('written')[0].innerText = userTextEvents;
 	document.getElementsByClassName('writtenPct')[0].innerText = ((userTextEvents/completedArr.length)*100).toFixed(2).toString() + "%";
